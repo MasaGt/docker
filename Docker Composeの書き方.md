@@ -37,7 +37,9 @@ services:
     ...
     environment:
       [環境変数名]=[実際の値]
-      # WORDPRESS_DB_HOST=[DBコンテナ名]
+      - WORDPRESS_DB_HOST=[DBコンテナ名]
+      #以下の書き方でもいい
+      - WORDPRESS_DB_HOST: [DBコンテナ名]
 
     depends_on:
       - [このコンテナより先に作成するコンテナ名]

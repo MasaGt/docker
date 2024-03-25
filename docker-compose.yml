@@ -2,15 +2,15 @@
 # version: "3"
 
 services:
-    sample_container:
-      image: httpd
-      ports:
-        - 8080:80
-      restart: always
-      networks:
-        - sample_network
-      volumes:
-        - sample_volume: /usr/local/apache2/htdocs
+  sample_container:
+    image: httpd
+    ports:
+      - 8080:80
+    restart: always
+    networks:
+      - sample_network
+    volumes:
+      - sample_volume:/usr/local/apache2/htdocs
 networks:
   - sample_network
 volumes:

@@ -29,3 +29,27 @@ docker-compose up すると、[定義ファイルのディレクト名]_default�
 docker volumes ls で確認すると、ボリューム名がハッシュ値のsql用のボリュームが作成されている。
 
 **networks同様に、明示的にvolumesにボリュームを定義し、各コンテナ定義に、どのボリュームを使用するのかを指定した方がいい**
+
+---
+
+### volume mount の書き方の注意点
+
+- ボリュームマウントで volumes を設定する場合、 ボリューム名:コンテナのディレクトリ の間にスペースを入れてはダメ
+
+<br>
+
+例: var/lib/mysql に myvolume と名前をつけてボリュームマウントする場合
+
+```yml
+# ダメな例
+services:
+  container_name:
+    volumes:
+      - myvolume: /var/lib/mysql
+
+# いい例
+services:
+  container_name:
+    volumes:
+     - myvolume:/var/lib/mysql
+```

@@ -23,7 +23,7 @@ COPY はソース側のマシンにあるものをImageへコピーするだけ�
 
 ---
 
-### Dockerfile　実行時のコンテナ内のパス設定
+### Dockerfile 実行時のコンテナ内のパス設定
 
 ```
 FROM <イメージ名>:<バージョン>
@@ -50,7 +50,7 @@ WORKDIR /home
 
 ```bash
 # ターミナルにて
-docker build -t <イメージ名>:<バージョン> .
+docker build -t <作成するイメージ名>:<バージョン> <.(DockerFileのあるディレクトリ)>
 
 # 作成したイメージからコンテナ作成
 docker run --name <コンテナ名> -dit <イメージ名>
@@ -79,10 +79,9 @@ WORKDIR /home
 WORKDIR /
 ```
 
-
 ---
 
-### 実際にDocker File　から　イメージを作成してみる
+### 実際に Docker File からイメージを作成してみる
 
 
 ```bash
@@ -113,6 +112,7 @@ WORKDIR /
 
 ```bash
 # Dockerfileからイメージ作成
+# 現在のディレクトリにあるDockerFileからtestという名前のDocker Imageを作成する
 docker build -t test .
 
 # testイメージがあることを確認
@@ -129,7 +129,4 @@ ls -la
 
 # /homeにsample.txtとcopy.txtがあることを確認
 ls /home
-
-
-
 ```

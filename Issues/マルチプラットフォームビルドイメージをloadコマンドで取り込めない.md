@@ -1,8 +1,8 @@
 ### 事象
 
-- `docker buildx build` コマンドでマルチプラットフォームビルドしたイメージ ([type=tar]()) を `docker load` コマンドで取り込むことができなかった
+- `docker buildx build` コマンドでマルチプラットフォームビルドしたイメージ ([type=oci](../docker_buildコマンドのoutputオプション.md#typeoci)) を `docker load` コマンドで取り込むことができなかった
 
-    <img src="../img/Issue-Loading-Mutli-Platform-Built-Image_1.svg" />
+    <img src="./img/Issue-Load-Non-Docker-Archieve_1.svg" />
 
 ---
 
@@ -14,25 +14,19 @@
 
 ### 問題点
 
-- `docker load`で取り込めるイメージ形式は docker-archieve だが、マルチプラットフォームイメージと docker-archieve は食い合わせが悪い
-
-    - `docker buildx build` コマンドで type=docker を指定すると出力するイメージ(のアーカイブ)は Docker (docker-archieve) 形式になる
-
-        - 問題点: マルチプラットフォームビルドをサポートする docker-container ドライバーは docekr-archieve 形式のイメージビルドをサポートしない = docker-archieve 形式のイメージをマルチプラットフォームビルドできない
-
-    <br>
-
-    <img src="../img/Issue-Loading-Mutli-Platform-Built-Image_2.svg" />
+- `docker load` で取り込めるイメージ形式は docker-archieve だが、 build コマンドの [--output type=docker](../docker_buildコマンドのoutputオプション.md#typedocker) でマルチプラットフォームビルドはできない
 
 ---
 
 ### 解決方法
 
-以下のようにいくつか方法がある
+- そもそもマルチプラットフォームなイメージを local image store は保持できない = (単一の CPU アーキテクチャー向けイメージのみ保持できる)
 
-1. 1つの CPU アーキテクチャ (プラットフォーム)ごとにイメージをビルドする
+    - 上記の前提からとれる解決策は以下のように限られてくる
 
-    <img src="../img/Issue-Loading-Mutli-Platform-Built-Image_3.svg" />
+<br>
+
+1. 1つの CPU アーキテクチャ (プラットフォーム) ごとにイメージをビルドする ([--load](../docker_buildコマンドのoutputオプション.md#--load-オプション-buildx-build-のその他のオプション) か [--output type=image](../docker_buildコマンドのoutputオプション.md#typeimage) でビルド)
 
 <br>
 
@@ -42,16 +36,4 @@
 
 <br>
 
-3. そもそも外部ファイルとして出力するのをやめ、リモートレジストリに push する (--push オプションをつける)
-
----
-
-### Docker (docker-archieve) 形式イメージの構造
-
-- ★以下は古い docker-archieve 形式
-
-    <img src="../img/Docker-Image-Format_1.svg" />
-
-<br>
-
-- Docker 25 以降にて docker-archieve 形式は OCI と互換性があるように以下の形式になったらしい
+3. そもそも外部ファイルとして出力するのをやめ、リモートレジストリに push する ([--push オプション](../docker_buildコマンドのoutputオプション.md#--push-オプション-buildx-build-のその他のオプション)をつける)
